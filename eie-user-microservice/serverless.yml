@@ -1,0 +1,87 @@
+service: user
+# app and org for use with dashboard.serverless.com
+
+frameworkVersion: "3"
+
+useDotenv: true
+provider:
+  name: aws
+  timeout: 10
+  runtime: nodejs16.x
+  region: sa-east-1
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+functions:
+  getUserByEmail:
+    handler: ./router/userWebRouter.getUserByEmail
+    events:
+      - httpApi:
+          path: /api/user/{email}
+          method: get
+
+  getAllUsers:
+    handler: ./router/userWebRouter.getAllUsers
+    events:
+      - httpApi:
+          path: /api/users
+          method: get
+
+  postNewUser:
+    handler: ./router/userWebRouter.postNewUser
+    events:
+      - httpApi:
+          path: /api/user
+          method: post
+
+  putUser:
+    handler: ./router/userWebRouter.putUser
+    events:
+      - httpApi:
+          path: /api/user/{id}
+          method: put
+
+  deleteUser:
+    handler: ./router/userWebRouter.deleteUser
+    events:
+      - httpApi:
+          path: /api/user/{id}
+          method: delete
+
+  getInfoForDashboard:
+    handler: ./router/userWebRouter.getInfoForDashboard
+    events:
+      - httpApi:
+          path: /api/users/dashboard
+          method: get
+
+  postUserToCourse:
+    handler: ./router/userWebRouter.postUserToCourse
+    events:
+      - httpApi:
+          path: /api/user/course
+          method: post
+
+  # mobile functions
+  getInfoStudentByEmail:
+    handler: ./router/userMobileRouter.getInfoStudentByEmail
+    events:
+      - httpApi:
+          path: /api/user/student/{email}
+          method: get
+
+  getCourseInfoByUserId:
+    handler: ./router/userMobileRouter.getCourseInfoByUserId
+    events:
+      - httpApi:
+          path: /api/user/course/{userId}
+          method: get
+
+  getTeacherCourse:
+    handler: ./router/userMobileRouter.getTeacherCourse
+    events:
+      - httpApi:
+          path: /api/user/teacher/course/{courseId}
+          method: get

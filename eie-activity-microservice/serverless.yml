@@ -1,0 +1,143 @@
+service: activity
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  timeout: 10
+  region: sa-east-1
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+#Web functions
+functions:
+  postNewForum:
+    handler: ./router/activityWebRouter.postNewForum
+    events:
+      - httpApi:
+          path: /api/course/{id}/activity/newForum
+          method: post
+
+  putForum:
+    handler: ./router/activityWebRouter.putForum
+    events:
+      - httpApi:
+          path: /api/course/{courseId}/activity/forum/{forumId}
+          method: put
+
+  deleteForum:
+    handler: ./router/activityWebRouter.deleteForum
+    events:
+      - httpApi:
+          path: /api/course/{courseId}/activity/forum/{forumId}
+          method: delete
+
+  # Shared Functions
+  getAllActivities:
+    handler: ./router/activitySharedRouter.getAllActivities
+    events:
+      - httpApi:
+          path: /api/course/{id}/activities
+          method: get
+
+  getCommentsForum:
+    handler: ./router/activitySharedRouter.getAllCommentsForForum
+    events:
+      - httpApi:
+          path: /api/course/{courseId}/foro/{forumId}/comments
+          method: get
+  # Mobile functions
+  postNewComment:
+    handler: ./router/activityMobileRouter.postNewComment
+    events:
+      - httpApi:
+          path: /api/course/{courseId}/forum/{forumId}/comment
+          method: post
+
+  postNewParticipation:
+    handler: ./router/activityMobileRouter.postNewParticipation
+    events:
+      - httpApi:
+          path: /api/activity/user/student/participation
+          method: post
+
+  getStudentNote:
+    handler: ./router/activityMobileRouter.getStudentNote
+    events:
+      - httpApi:
+          path: /api/activity/user/{userId}/result
+          method: get
+
+  postNewResult:
+    handler: ./router/activityMobileRouter.postNewResult
+    events:
+      - httpApi:
+          path: /api/activity/user/result
+          method: post
+
+  putStudentResult:
+    handler: ./router/activityMobileRouter.putStudentResult
+    events:
+      - httpApi:
+          path: /api/activity/user/{userId}/result
+          method: put
+
+  # getAllCourses:
+  #   handler: ./router/activityWebRouter.getAllCourses
+  #   events:
+  #     - httpApi:
+  #         path: /api/cursos
+  #         method: get
+
+  # getAllResultByCourse:
+  #   handler: ./router/activityWebRouter.getAllResultsByCourse
+  #   events:
+  #     - httpApi:
+  #         path: /api/curso/resultados
+  #         method: get
+
+  # # questions function
+  # getAllQuestions:
+  #   handler: ./router/activityMobileRouter.getAllQuestions
+  #   events:
+  #     - httpApi:
+  #         path: /api/preguntas
+  #         method: get
+
+  # getStudentNote:
+  #   handler: ./router/activityMobileRouter.getStudentNote
+  #   events:
+  #     - httpApi:
+  #         path: /api/usuario/{usuarioId}/nota
+  #         method: get
+
+  # getLessonsForBook:
+  #   handler: ./router/activityMobileRouter.getLessonForBook
+  #   events:
+  #     - httpApi:
+  #         path: /api/lecciones
+  #         method: get
+
+  # getStudentPaticipation:
+  #   handler: ./router/activityMobileRouter.getStudentParticipation
+  #   events:
+  #     - httpApi:
+  #         path: /api/usuario/{usuarioId}/participacion
+  #         method: get
+  # # post methods
+
+  # postNewResult:
+  #   handler: ./router/activityMobileRouter.postNewResult
+  #   events:
+  #     - httpApi:
+  #         path: /api/usuario/resultados
+  #         method: post
+
+  # putStudentResult:
+  #   handler: ./router/activityMobileRouter.putStudentResult
+  #   events:
+  #     - httpApi:
+  #         path: /api/usuario/resultado/{resultadoId}
+  #         method: put

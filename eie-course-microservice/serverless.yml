@@ -1,0 +1,62 @@
+service: course
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: sa-east-1
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+functions:
+  getCourses:
+    handler: ./router/courseWebRouter.getCourses
+    events:
+      - httpApi:
+          path: /api/courses
+          method: get
+
+  postCourse:
+    handler: ./router/courseWebRouter.postCourse
+    events:
+      - httpApi:
+          path: /api/course
+          method: post
+
+  putCourse:
+    handler: ./router/courseWebRouter.putCourse
+    events:
+      - httpApi:
+          path: /api/course/{id}
+          method: put
+
+  deleteCourse:
+    handler: ./router/courseWebRouter.deleteCourse
+    events:
+      - httpApi:
+          path: /api/course/{id}
+          method: delete
+
+  getUsersByCourse:
+    handler: ./router/courseWebRouter.getUsersByCourse
+    events:
+      - httpApi:
+          path: /api/course/{id}/users
+          method: get
+
+  getCoursesByTeacher:
+    handler: ./router/courseWebRouter.getCoursesByTeacher
+    events:
+      - httpApi:
+          path: /api/teacher/{id}/courses
+          method: get
+
+  getStudentsResultByCourse:
+    handler: ./router/courseWebRouter.getStudentsResultByCourse
+    events:
+      - httpApi:
+          path: /api/course/{id}/students-result
+          method: get
